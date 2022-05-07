@@ -61,6 +61,13 @@ func OptionLivePrefix(f func() (prefix string, useLivePrefix bool)) Option {
 	}
 }
 
+func OptionInput(f func(string) string) Option {
+	return func(p *Prompt) error {
+		p.renderer.inputTextCallback = f
+		return nil
+	}
+}
+
 // OptionPrefixTextColor change a text color of prefix string
 func OptionPrefixTextColor(x Color) Option {
 	return func(p *Prompt) error {
@@ -280,6 +287,7 @@ func New(executor Executor, completer Completer, opts ...Option) *Prompt {
 			prefixTextColor:              Blue,
 			prefixBGColor:                DefaultColor,
 			inputTextColor:               DefaultColor,
+			inputTextCallback:            func(line string) string { return line },
 			inputBGColor:                 DefaultColor,
 			previewSuggestionTextColor:   Green,
 			previewSuggestionBGColor:     DefaultColor,

@@ -235,7 +235,13 @@ func (r *Render) BreakLine(buffer *Buffer) {
 	r.clear(cursor)
 	r.renderPrefix()
 	r.out.SetColor(r.inputTextColor, r.inputBGColor, false)
-	r.out.WriteStr(buffer.Document().Text + "\n")
+
+	if r.inputTextCallback != nil {
+		r.out.WriteRawStr(r.inputTextCallback(buffer.Document().Text + "\n"))
+	} else {
+		r.out.WriteStr(buffer.Document().Text + "\n")
+	}
+
 	r.out.SetColor(DefaultColor, DefaultColor, false)
 	debug.AssertNoError(r.out.Flush())
 	if r.breakLineCallback != nil {

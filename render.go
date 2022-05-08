@@ -197,7 +197,7 @@ func (r *Render) Render(buffer *Buffer, completion *CompletionManager) {
 	r.renderPrefix()
 	r.out.SetColor(r.inputTextColor, r.inputBGColor, false)
 	if r.inputTextCallback != nil {
-		r.out.WriteStr(r.inputTextCallback(line))
+		r.out.WriteRawStr(r.inputTextCallback(line))
 	} else {
 		r.out.WriteStr(line)
 	}
